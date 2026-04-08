@@ -1,0 +1,30 @@
+import string
+alfa = string.ascii_letters
+
+def criptografarMono(frase, chave):
+    criptografada = ""
+    mapeamento = dict(zip(alfa, chave))
+
+    for i in frase:
+        if i.isalpha():
+            criptografada += mapeamento[i]
+        else:
+            criptografada += i
+    
+    return criptografada
+
+
+def descriptografarMono(frase, chave):
+    descriptografada = ""
+    mapeamento_inverso = dict(zip(chave, alfa))
+
+    for i in frase:
+        if i.isalpha():
+            descriptografada += mapeamento_inverso[i]
+        else:
+            descriptografada += i
+    
+    return descriptografada
+
+
+
