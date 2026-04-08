@@ -8,7 +8,7 @@ def criptografia(frase, chave):
     for i in frase:
         if i.isalpha():
             base = ord('A') if i.isupper() else ord('a')
-            frase_criptografada += chr((ord(i) - base + chave) % 26)
+            frase_criptografada += chr((ord(i) - base + chave) % 26 + base)
         else:
             frase_criptografada += i 
 
@@ -17,3 +17,11 @@ def criptografia(frase, chave):
 
 def descriptografia(frase, chave):
     frase_descriptografada = ""
+    chave = int(chave)
+    for i in frase:
+        if i.isalpha():
+            base = ord('A') if i.isupper() else ord('a')
+            frase_descriptografada += chr((ord(i) - base - chave) % 26 + base)
+        else:
+            frase_descriptografada += i
+    return frase_descriptografada

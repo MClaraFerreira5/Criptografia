@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from cifras.Cesar import criptografia
+from cifras.Cesar import criptografia, descriptografia
 
 class AppCripto(ctk.CTk):
 
@@ -47,18 +47,21 @@ class AppCripto(ctk.CTk):
         self.txt_input.insert("0.0", "Digite...")
 
         # Frame da Chave (Dinâmico)
-        self.frame_chave_container = ctk.CTkTextbox(self.main_content)
+        self.frame_chave_container = ctk.CTkFrame(self.main_content)
         self.frame_chave_container.grid(row=1, column=0, sticky="ew", pady=10)
         self.frame_chave_container.grid_columnconfigure(0, weight=1)
 
         # Botão de Ação
-        self.btn_action = ctk.CTkButton(self.main_content, text="PROCESSAR TEXTO", height=50,
-                                        font=ctk.CTkFont(weight="bold"), fg_color="#1f538d", hover_color="#14375e", command= self.criptografia())
-        self.btn_action.grid(row=2, column=0, pady=20, sticky="ew")
-
+        self.btn_encript = ctk.CTkButton(self.main_content, text="Encript", height=50,
+                                        font=ctk.CTkFont(weight="bold"), fg_color="#1f538d", hover_color="#14375e", command=self.criptografia)
+        self.btn_encript.grid(row=2, column=0, pady=20, sticky="ew")
+        
+        self.btn_decript = ctk.CTkButton(self.main_content, text="Descript", height=50,
+                                        font=ctk.CTkFont(weight="bold"), fg_color="#1f8d56", hover_color="#14375e", command=self.descriptografia)
+        self.btn_decript.grid(row=3, column=0, pady=20, sticky="ew")
         # Campo de Saída
         self.txt_output = ctk.CTkTextbox(self.main_content, height=150, font=("Consolas", 14), fg_color="#2b2b2b")
-        self.txt_output.grid(row=3, column=0, sticky="ew")
+        self.txt_output.grid(row=4, column=0, sticky="ew")
 
         # Inicialização
         self.widgets_chave = []
@@ -102,9 +105,37 @@ class AppCripto(ctk.CTk):
 
     def criptografia(self):
         frase = self.txt_input.get("1.0", "end").strip()
-        chave = self.frame_chave_container.get
-
-        return self.criptografia(frase, chave)
+        escolha = self.combo_algo.get()
+        
+        if escolha == "César":
+            chave = self.widgets_chave[1].get()
+            try:
+                chave = int(chave)
+            except ValueError:
+                chave = 0 
+            result = criptografia(frase, chave)
+        else:
+            result = "Algoritmo não implementado ainda."
+        
+        self.txt_output.delete("1.0", "end")
+        self.txt_output.insert("1.0", result)
+    
+    def descriptografia(self):
+        frase = self.txt_input.get("1.0", "end").strip()
+        escolha = self.combo_algo.get()
+        
+        if escolha == "César":
+            chave = self.widgets_chave[1].get()
+            try:
+                chave = int(chave)
+            except ValueError:
+                chave = 0 
+            result = descriptografia(frase, chave)
+        else:
+            result = "Algoritmo não implementado ainda."
+        
+        self.txt_output.delete("1.0", "end")
+        self.txt_output.insert("1.0", result)
     
 
         
