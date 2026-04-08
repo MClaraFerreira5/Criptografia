@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from cifras.Cesar import criptografia, descriptografia
+from cifras.Monoalfabetica import criptografarMono, descriptografarMono
 
 class AppCripto(ctk.CTk):
 
@@ -98,7 +99,7 @@ class AppCripto(ctk.CTk):
                     self.widgets_chave.append(e)
 
         else:
-            entry = ctk.CTkEntry(self.frame_chave_container, placeholder_text="Insira a chave textual...", width=400)
+            entry = ctk.CTkEntry(self.frame_chave_container, placeholder_text="Chave Monoalfabética (52 letras)", width=400)
             entry.grid(row=1, column=0, pady=10)
             self.widgets_chave.append(entry)
 
@@ -114,6 +115,12 @@ class AppCripto(ctk.CTk):
             except ValueError:
                 chave = 0 
             result = criptografia(frase, chave)
+        elif escolha == "Monoalfabética":
+            chave = self.widgets_chave[1].get().strip()
+            if len(chave) != 52 or not chave.isalpha():
+                result = "ERRO: Chave deve ter exatamente 52 letras (a-zA-Z)!"
+            else:
+                result = criptografarMono(frase, chave)
         else:
             result = "Algoritmo não implementado ainda."
         
@@ -131,14 +138,22 @@ class AppCripto(ctk.CTk):
             except ValueError:
                 chave = 0 
             result = descriptografia(frase, chave)
+        
+        elif escolha == "Monoalfabética":
+            chave = self.widgets_chave[1].get().strip()
+            if len(chave) != 52 or not chave.isalpha():
+                result = "ERRO: Chave deve ter exatamente 52 letras (a-zA-Z)!"
+            else:
+                result = descriptografarMono(frase, chave)
+        
         else:
             result = "Algoritmo não implementado ainda."
         
         self.txt_output.delete("1.0", "end")
         self.txt_output.insert("1.0", result)
     
-
         
+            
 
 if __name__ == "__main__":
     app = AppCripto()
